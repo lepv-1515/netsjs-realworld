@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigService } from './config/config.service';
-import { ConfigModule } from './config/config.module';
+import { ConfigService } from './api/config/config.service';
+import { ConfigModule } from './api/config/config.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/entities/user.entity';
-import { UsersModule } from './users/users.module';
+import { UserEntity } from './api/users/entities/user.entity';
+import { UsersModule } from './api/users/users.module';
+import { AuthModule } from './api/auth/auth.module';
 
 @Module({
   imports: [
@@ -19,12 +20,13 @@ import { UsersModule } from './users/users.module';
         username: configService.get('DATABASE_USER'),
         password: configService.get('DATABASE_PASSWORD'),
         database: configService.get('DATABASE_NAME'),
-        entities: [User],
+        entities: [UserEntity],
         synchronize: true,
       }),
       inject: [ConfigService],
     }),
-    UsersModule
+    UsersModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService, ConfigService],
