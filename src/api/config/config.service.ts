@@ -16,7 +16,6 @@ export class ConfigService {
             throw new Error(`Config error: ${key} not found`);
         }
 
-        console.log("database info:", value)
         return value;
     }
 }
